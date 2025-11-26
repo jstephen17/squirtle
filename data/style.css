@@ -1,37 +1,75 @@
 body, html {
-  height: 100%;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #222;
-  font-family: Arial, sans-serif;
-  color: #fff;
-}
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #222;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
 
-.container {
-  text-align: center;
-}
+    .container {
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+    }
 
-#waterBtn{
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: none;
-  background: red;
-  cursor: pointer;
-  transition: background 0.3s;
-}
+    #plantImg {
+      width: 25vh;
+    }
 
-#waterBtn.on {
-  background: limegreen;
-}
+    #waterBtn {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: none;
+      background: red;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
-#plantImg{
-  width: 25vh;
-}
+    #waterBtn.on {
+      background: limegreen;
+    }
 
-p {
-  margin-top: 20px;
-  font-size: 1.2em;
+    p {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+
+    .table-wrapper {
+      margin-top: 35px;
+      background: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #fff;
+      font-size: 0.95em;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #444;
+      text-align: left;
+    }
+
+    th {
+      background: #444;
+      font-size: 1em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    tr:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
 }

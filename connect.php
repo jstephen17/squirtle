@@ -11,13 +11,12 @@
     // Connect to MySQL
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Check connection
     if ($conn->connect_error) {
         echo json_encode(["error" => "Connection failed: " . $conn->connect_error]);
         exit();
     }
 
-    // Function to fetch the newest row from a table
+    // Fetch the newest row
     function fetchLatest($conn, $table) {
         $sql = "SELECT * FROM `$table` ORDER BY timedate_stamp DESC LIMIT 1";
         $result = $conn->query($sql);
@@ -29,27 +28,43 @@
         }
     }
 
+    // Fetch multiple rows
     function fetchRecents($conn, $table, $limit = 1) {
-        $limit = intval($limit); // sanitize
+        $limit = intval($limit);  // sanitize integer
+        if ($limit < 1) $limit = 1;
+
         $sql = "SELECT * FROM `$table` ORDER BY timedate_stamp DESC LIMIT $limit";
         $result = $conn->query($sql);
 
         if ($result && $result->num_rows > 0) {
-            return ($limit === 1) ? $result->fetch_assoc()
-                                : $result->fetch_all(MYSQLI_ASSOC);
+            return ($limit === 1)
+                ? $result->fetch_assoc()
+                : $result->fetch_all(MYSQLI_ASSOC);
         } else {
             return null;
         }
     }
 
-    // Fetch latest data from both tables
-    $latestMoisture = fetchLatest($conn, "moisture");
-    $latestWater = fetchLatest($conn, "water");
+    // How many recent rows to fetch
+    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 1;
 
-    // Send JSON to frontend
+    // Fetch data
+    $latestMoisture = fetchLatest($conn, "moisture");
+    $latestWater    = fetchLatest($conn, "water");
+
+    $recentMoisture = fetchRecents($conn, "moisture", $limit);
+    $recentWater    = fetchRecents($conn, "water", $limit);
+
+    // JSON response
     echo json_encode([
-        "moisture" => $latestMoisture,
-        "water" => $latestWater
+        "latest" => [
+            "moisture" => $latestMoisture,
+            "water"    => $latestWater
+        ],
+        "recents" => [
+            "moisture" => $recentMoisture,
+            "water"    => $recentWater
+        ]
     ]);
 
     $conn->close();
